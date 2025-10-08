@@ -1,7 +1,5 @@
 from ollama import ChatResponse, chat
 
-from utils import Tokenizer
-
 
 def chat_with_ollama(model: str) -> None:
     """
@@ -11,7 +9,6 @@ def chat_with_ollama(model: str) -> None:
     print("Type 'exit' to end.\n")
 
     messages = []
-    tokenizer = Tokenizer(encoding="cl100k_base")
 
     while True:
         user_input = input("You: ")
@@ -25,11 +22,10 @@ def chat_with_ollama(model: str) -> None:
         response: ChatResponse = chat(model=model, messages=messages)
 
         reply = response.message.content
-        output_tokens = tokenizer.tokenize(reply)
-        print(f"{model} ({len(output_tokens)} output tokens): {reply}\n")
+        print(f"{model}: {reply}\n")
 
         messages.append({"role": "assistant", "content": reply})
 
 
 if __name__ == "__main__":
-    chat_with_ollama("gemma3")
+    chat_with_ollama("gemma3:1b")
